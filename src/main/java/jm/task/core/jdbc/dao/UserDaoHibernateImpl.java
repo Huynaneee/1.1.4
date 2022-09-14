@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static final String CREATE_NEW_TABLE = "CREATE TABLE IF NOT EXISTS users (\n" +
+    private static final String CREATE_NEW_TABLE = "CREATE TABLE IF NOT EXISTS user (\n" +
             "id int PRIMARY KEY NOT NULL AUTO_INCREMENT,\n" +
             "name VARCHAR(45) NOT NULL,\n" +
             "lastName VARCHAR(45) NOT NULL,\n" +
             "age int NOT NULL\n" + ");";
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS user";
 
     public UserDaoHibernateImpl() {
 
@@ -143,7 +143,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            users = session.createCriteria(User.class).list();
+            users = session.createQuery("FROM User").getResultList();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
