@@ -15,12 +15,14 @@ public class Util {
     private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
+    private static volatile Util instance;
     private static Connection connection;
 
     private static SessionFactory sessionFactory;
     private static StandardServiceRegistry serviceRegistry;
+    private Util () {}
 
-    public static Connection getConnection(){
+    public Connection getConnection(){
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
@@ -29,7 +31,7 @@ public class Util {
         return connection;
     }
 
-    private static Configuration getConfiguration (){
+    private Configuration getConfiguration (){
         Properties properties = new Properties();
         properties.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         properties.setProperty("hibernate.connection.url", URL);
@@ -44,7 +46,7 @@ public class Util {
         return configuration;
     }
 
-    public static SessionFactory getSessionFactory(){
+    public SessionFactory getSessionFactory(){
         try {
             Configuration cfg = getConfiguration();
             serviceRegistry = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();
@@ -55,4 +57,16 @@ public class Util {
         }
         return sessionFactory;
     }
+    public static Util getInstance() {
+        Util localInst = instance;
+        if (localInst == null){
+            synchronized (Util.class) {
+                localInst = instance;
+                if (localInst == null) {
+                    instance = localInst = new Util();
+                }
+            }
+        } return localInst;
+    }
+
 }

@@ -28,7 +28,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session = Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(CREATE_NEW_TABLE).executeUpdate();
             transaction.commit();
@@ -55,7 +55,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(DROP_TABLE).executeUpdate();
             transaction.commit();
@@ -82,7 +82,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             User user = new User(name, lastName, age);
             session.persist(user);
@@ -112,7 +112,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.delete(session.get(User.class, id));
             transaction.commit();
@@ -141,7 +141,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             users = session.createCriteria(User.class).list();
             transaction.commit();
@@ -164,7 +164,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
 
         try {
-            session = Util.getSessionFactory().openSession();
+            session =  Util.getInstance().getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(DROP_TABLE).executeUpdate();
             session.createSQLQuery(CREATE_NEW_TABLE).executeUpdate();
